@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.1/js/select2.min.js" integrity="sha512-hCkPU8v58lKyLh5KiwA3Yj1kq+YkNPv5IZ46CaSeGDE1dUPGgm+mG/YAm7pnGJLPoLCOrrYi558ID4iSr6EVhQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.1/css/select2.min.css" integrity="sha512-boCIdJNep+VcmdgkPJZOlXb9taUopveV0moUBYYSZKf6aoY/m5EyLDMrNQbm85P9OCGP9kflcJCRJf4mfJJ71w==" crossorigin="anonymous" referrerpolicy="no-referrer" />-->
+    <script>
+        $(document).ready(function()
+        {
+            var $select1=$('#select1'),
+                $select2=$('#select2'),
+                $options=$select2.find('option');
+                $select1.on('change',function()
+                {
+                   $select2.html($options.filter('[value="'+this.value+'"]'));
+                }).trigger('change');
+        });
+    </script>
+    <script>
+        $(document).ready(function()
+        {
+            $('#select1').select2({
+
+            });
+            $('#select2').select2({
+
+            });
+        });
+
+
+    </script>
+    <style>
+    *{
+        padding:0;margin:0;font-family:sans-serif;
+    }
+    body{
+        background:url('img/register.jpg') no-repeat;background-size:cover;color:#fff;
+    }
+    .form{
+        position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;
+    }
+    .container{
+       height:500px;
+    }
+    .box1{
+        display:block;float:left;text-align:justify;margin-left:400px;width:20%;
+    }
+    .box2{
+        display:block;text-align:justify;float:right;margin-right:400px;width:20%;padding:20px;
+        }
+    .form h1{
+        font-size:20px;text-align:center;text-transform:uppercase;margin:10px 0;
+    }
+    .form p{
+        font-size:15px;margin:15px 0;
+    }
+    .form input{
+        font-size:16px;padding:6px 10px;width:100%;border:0px;border-radius:5px;outline:2px;
+    }
+    .form select{
+        font-size:16px;padding:6px 10px;width:100%;border:0px;border-radius:5px;outline:2px;
+    }
+    .form button{
+        font-size:18px;font-weight:bold;margin:20px 10px;padding:5px 15px;width:100%;border:0;border-radius:10px;background-color:#fff;font-color:white;
+    }
+    .form button:hover{
+        color:red;
+    }
+    .btn{
+        padding:10px 60px;background:#fff;border:0;outline:none;cursor:pointer;font-size:22px;font-weight:500;border-radius:30px;
+    }
+    .popup{
+        width:400px;
+        background:#fff;
+        border-radius:6px;
+        position:absolute;
+        top:0%;
+        left:50%;
+        transform:translate(-50%,-50%) scale(0.1);
+        text-align:center;
+        padding:0 30px 30px;
+        color:#333;
+        visibility:hidden;
+    }
+    .popup img{
+        width: 100px;
+        margin-top: -50px;
+        border-radius: 50%;
+   }
+   .popup h2{
+        font-size:38px;
+        font-weight:500;
+        margin:30px 0 10px;
+    }
+    .popup button{
+        width:100%;
+        margin-top:50px;
+        padding:10px 0;
+        background:#6fd649;
+        color:#fff;
+        border:0;
+        outline:none;
+        font-size:18px;
+        border-radius:4px;
+        cursor:pointer;
+        box-shadow:0 5px 5px rgba(0,0,0,0.2);
+    }
+    .open-popup{
+        visibility:visible;
+        top:50%;
+        transform:translate(-50%,-50%) scale(1);
+        position:absolute;
+    }
+    </style>
+</head>
+<body style="background-image: url({% static 'img/form.jpg' %});background-size:100%;background-size:cover;">
+<div class="container">
+    <div class="form">
+        <h1>Form</h1>
+        <form method="post">
+                {% csrf_token %}
+                <div class="col-md-6">
+                            <div class="box1">
+                                <p>Name:</p>
+                                <input type="text" name="name" placeholder="Enter your name">
+                                <p>Date of Birth:</p>
+                                <input type="date" name="dob">
+                                <p>Age:</p>
+                                <input type="text" name="age" placeholder="Enter your age">
+                                <table>
+                                    <tr>
+                                        <td><p style="padding:10px;">Gender:</p></td>
+                                        <td><input type="radio" name="gender" value="male">Male</td>
+                                        <td><input type="radio" name="gender" value="female">Female</td>
+                                    </tr>
+                                </table>
+                                <p>Phone Number:</p>
+                                <input type="text" name="phone" placeholder="Enter your phone number">
+                                <p>Mail ID:</p>
+                                <input type="email" name="mail" placeholder="Enter your email id">
+                            </div>
+                </div>
+                    <div class="col-md-6">
+                        <div class="box2">
+                                <p>Address:</p>
+                                <input rows="4" cols="60" name="address" placeholder="Enter your address">
+                                <p>Department:</p>
+                                <select id="select1">
+                                    <option selected disabled="true">---Select Option---</option>
+                                    {% for dep in department %}
+                                    <option value="{{dep.id}}">{{dep.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                <p>Courses:</p>
+                                <select id="select2">
+                                    <option selected disabled="true">---Select Option---</option>
+                                    {% for cr in course %}
+                                    <option value="{{cr.department_id}}">{{cr.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                <p>Purpose:</p>
+                                <select>
+                                    <option>---Select Option---</option>
+                                    <option>Enquiry</option>
+                                    <option>Place Order</option>
+                                    <option>Return</option>
+                                    <option>Fees</option>
+                                    <option>Certificate request</option>
+                                </select>
+                                <p>Material Provided:</p>
+                                <table>
+                                    <tr>
+                                        <td><input type="checkbox" name="material">Note Book</td>
+                                        <td><input type="checkbox" name="material">Pen</td>
+                                        <td><input type="checkbox" name="material">Exam Sheet</td>
+                                        <td><input type="checkbox" name="material">Pencil<br></td>
+                                    </tr>
+                                </table>
+                                <button type="button" onclick="openPopup()">Place Order</button>
+                            <div class="popup" id="popup">
+                                <h2>Thank You!</h2>
+                                <p>Your details has been submitted successfully. </p>
+                                 <button type ="submit" onclick="closePopup()">ok</button>
+                                 <a href="/">Back to home page.</a>
+                            </div>
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+<script>
+    let popup = document.getElementById("popup");
+
+    function openPopup(){
+    popup.classList.add("open-popup");
+    }
+    function closePopup(){
+    popup.classList.remove("close-popup");
+    }
+</script>
+</body>
+</html>
